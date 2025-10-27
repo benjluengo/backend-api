@@ -16,7 +16,11 @@ public class WebConfig implements WebMvcConfigurer {
                 "http://127.0.0.1:5501",
                 "http://localhost:5501",
                 "http://127.0.0.1:8000",
-                "http://localhost:8000"
+                "http://localhost:8000",
+                "http://127.0.0.1:3000",
+                "http://localhost:3000",
+                "http://127.0.0.1:3001",
+                "http://localhost:3001"
             )
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .allowedHeaders("Content-Type", "Authorization", "X-Requested-With", "Accept")
