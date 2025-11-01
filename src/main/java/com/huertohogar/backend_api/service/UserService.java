@@ -78,11 +78,23 @@ public class UserService implements UserDetailsService {
             existingUser.setName(userDetails.getName());
             existingUser.setPhoneNumber(userDetails.getPhoneNumber());
             existingUser.setAddress(userDetails.getAddress());
-            
+
+            // Update email if provided and different
+            if (userDetails.getEmail() != null && !userDetails.getEmail().isEmpty()) {
+                String normalizedEmail = userDetails.getEmail().toLowerCase().trim();
+                // Check if email is already taken by another user
+                Optional<User> existingUserWithEmail = userRepository.findByEmail(normalizedEmail);
+                if (existingUserWithEmail.isPresent() && !existingUserWithEmail.get().getId().equals(id)) {
+                    // Email is taken by another user, return null to indicate failure
+                    return null;
+                }
+                existingUser.setEmail(normalizedEmail);
+            }
+
             if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
                 existingUser.setPassword(passwordEncoder.encode(userDetails.getPassword()));
             }
-            
+
             return userRepository.save(existingUser);
         }
         return null;
